@@ -68,14 +68,17 @@
                             username: this.loginForm.username,
                             password: this.loginForm.password
                         }).then(res => {
+
+                            debugger
                             // 获取数据成功后的其他操作
-                            if (res.status == 1) {
-                                debugger
+                            if (res.code == 200) {
+                                var data1 = res.data.token;
+                                alert(data1);
+                                this.$router.push('manage');
                                 this.$message({
                                     type: 'success',
                                     message: '登录成功'
-                                })
-                                this.$router.push('manage');
+                                });
                             } else {
                                 this.$message({
                                     type: 'error',
