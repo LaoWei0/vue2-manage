@@ -26,7 +26,7 @@
 
 <script>
     import {login, getAdminInfo} from '@/api/getData'
-    import { apiAddress } from '@/config/api';// 导入我们的api接口
+    import { apiLogin } from '@/config/api';// 导入我们的api接口
     import {mapActions, mapState} from 'vuex'
 
     export default {
@@ -64,7 +64,7 @@
 
                 this.$refs[loginForm].validate(async (valid) => {
                     if (valid) {
-                        apiAddress({
+                        apiLogin({
                             username: this.loginForm.username,
                             password: this.loginForm.password
                         }).then(res => {

@@ -8,9 +8,9 @@ import store from '../store/index'
 
 // 环境的切换
 if (process.env.NODE_ENV == 'development') {
-	axios.defaults.baseURL = 'http://39.105.183.52:8090';
+	axios.defaults.baseURL = 'http://localhost:8090';
 } else if (process.env.NODE_ENV == 'debug') {
-	axios.defaults.baseURL = 'http://39.105.183.52:8090';
+	axios.defaults.baseURL = 'http://localhost:8090';
 } else if (process.env.NODE_ENV == 'production') {
 	axios.defaults.baseURL = 'http://39.105.183.52:8090';
 }

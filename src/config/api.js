@@ -3,4 +3,5 @@
  */
 import { get, post } from './http'
 
-export const apiAddress = p => post('/api/user/nc/login.do', p);
+export const apiLogin = p => post('/api/user/nc/login.do', p);
+export const apiQueryTraceList = p => post('/api/goods/nc/queryTraceList.do', p);

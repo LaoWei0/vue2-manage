@@ -9,29 +9,29 @@
                   <template slot-scope="props">
                     <el-form label-position="left" inline class="demo-table-expand">
                       <el-form-item label="店铺名称">
-                        <span>{{ props.row.name }}</span>
+                        <span>{{ props.row.start_station }}</span>
                       </el-form-item>
                       <el-form-item label="店铺地址">
-                        <span>{{ props.row.address }}</span>
+                        <span>{{ props.row.start_company }}</span>
                       </el-form-item>
                       <el-form-item label="店铺介绍">
-                        <span>{{ props.row.description }}</span>
+                        <span>{{ props.row.transport_num }}</span>
                       </el-form-item>
                       <el-form-item label="店铺 ID">
-                        <span>{{ props.row.id }}</span>
+                        <span>{{ props.row.goods_name }}</span>
                       </el-form-item>
                       <el-form-item label="联系电话">
-                        <span>{{ props.row.phone }}</span>
+                        <span>{{ props.row.goods_num }}</span>
                       </el-form-item>
                       <el-form-item label="评分">
-                        <span>{{ props.row.rating }}</span>
+                        <span>{{ props.row.weight_per }}</span>
                       </el-form-item>
-                      <el-form-item label="销售量">
-                        <span>{{ props.row.recent_order_num }}</span>
-                      </el-form-item>
-                      <el-form-item label="分类">
-                        <span>{{ props.row.category }}</span>
-                      </el-form-item>
+                      <!--<el-form-item label="销售量">-->
+                        <!--<span>{{ props.row.recent_order_num }}</span>-->
+                      <!--</el-form-item>-->
+                      <!--<el-form-item label="分类">-->
+                        <!--<span>{{ props.row.category }}</span>-->
+                      <!--</el-form-item>-->
                     </el-form>
                   </template>
                 </el-table-column>
@@ -126,6 +126,7 @@
     import headTop from '../components/headTop'
     import {baseUrl, baseImgPath} from '@/config/env'
     import {cityGuess, getResturants, getResturantsCount, foodCategory, updateResturant, searchplace, deleteResturant} from '@/api/getData'
+    import {apiQueryTraceList} from '@/config/api';
     export default {
         data(){
             return {
@@ -193,22 +194,41 @@
                 }
             },
             async getResturants(){
-                const {latitude, longitude} = this.city;
-                const restaurants = await getResturants({latitude, longitude, offset: this.offset, limit: this.limit});
-                this.tableData = [];
-                restaurants.forEach(item => {
-                    const tableData = {};
-                    tableData.name = item.name;
-                    tableData.address = item.address;
-                    tableData.description = item.description;
-                    tableData.id = item.id;
-                    tableData.phone = item.phone;
-                    tableData.rating = item.rating;
-                    tableData.recent_order_num = item.recent_order_num;
-                    tableData.category = item.category;
-                    tableData.image_path = item.image_path;
-                    this.tableData.push(tableData);
+                // const {latitude, longitude} = this.city;
+                // const restaurants = await getResturants({latitude, longitude, offset: this.offset, limit: this.limit});
+                // this.tableData = [];
+                // restaurants.forEach(item => {
+                //     const tableData = {};
+                //     tableData.start_station = item.start_station;
+                //     tableData.start_company = item.start_company;
+                //     tableData.transport_num = item.transport_num;
+                //     tableData.goods_name = item.goods_name;
+                //     tableData.goods_num = item.goods_num;
+                //     tableData.weight_per = item.weight_per;
+                //     // tableData.recent_order_num = item.recent_order_num;
+                //     // tableData.category = item.category;
+                //     // tableData.image_path = item.image_path;
+                //     this.tableData.push(tableData);
+                // })
+                apiQueryTraceList().then(res => {
+                    if(res.code == 200){
+                        const restaurants = res.data;
+                        restaurants.forEach(item => {
+                                const tableData = {};
+                                tableData.start_station = item.start_station;
+                                tableData.start_company = item.start_company;
+                                tableData.transport_num = item.transport_num;
+                                tableData.goods_name = item.goods_name;
+                                tableData.goods_num = item.goods_num;
+                                tableData.weight_per = item.weight_per;
+                                // tableData.recent_order_num = item.recent_order_num;
+                                // tableData.category = item.category;
+                                // tableData.image_path = item.image_path;
+                                this.tableData.push(tableData);
+                            })
+                    }
                 })
+
             },
             handleSizeChange(val) {
                 console.log(`每页 ${val} 条`);
