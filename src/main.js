@@ -13,17 +13,18 @@ Vue.config.productionTip = false;
 Vue.use(ElementUI);
 Vue.use(vant);
 
+Vue.prototype.$store = store;
 
 Vue.prototype.$axios = axios;
 Vue.prototype.querystring = require('querystring')
 
-// if(process.env.NODE_ENV === 'development') {
-//     // dev
-// 	Vue.prototype.apiServer = 'http://172.168.3.39:9001';
-// } else {
-//     // build
-// 	Vue.prototype.apiServer = '';
-// }
+if(process.env.NODE_ENV === 'development') {
+    // dev
+	Vue.prototype.apiServer = 'http://localhost:8090';
+} else {
+    // build
+	Vue.prototype.apiServer = 'http://39.105.183.52:8090';
+}
 
 
 

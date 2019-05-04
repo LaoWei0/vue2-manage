@@ -12,19 +12,19 @@
 			      <template slot-scope="props">
 			        <el-form label-position="left" inline class="demo-table-expand">
 			          <el-form-item label="用户名" >
-			            <span>{{ props.row.user_name }}</span>
+			            <span>{{ props.row.goods_name }}</span>
 			          </el-form-item>
 			          <el-form-item label="店铺名称">
-			            <span>{{ props.row.restaurant_name }}</span>
+			            <span>{{ props.row.start_company }}</span>
 			          </el-form-item>
 			          <el-form-item label="收货地址">
-			            <span>{{ props.row.address }}</span>
+			            <span>{{ props.row.start_station }}</span>
 			          </el-form-item>
 			          <el-form-item label="店铺 ID">
-			            <span>{{ props.row.restaurant_id }}</span>
+			            <span>{{ props.row.and_id }}</span>
 			          </el-form-item>
 			          <el-form-item label="店铺地址">
-			            <span>{{ props.row.restaurant_address }}</span>
+			            <span>{{ props.row.transport_num }}</span>
 			          </el-form-item>
 			        </el-form>
 			      </template>
@@ -59,6 +59,7 @@
 <script>
     import headTop from '../components/headTop'
     import {getOrderList, getOrderCount, getResturantDetail, getUserInfo, getAddressById} from '@/api/getData'
+    import {apiQueryTraceList} from '@/config/api';
     export default {
         data(){
             return {
@@ -85,9 +86,10 @@
         methods: {
             async initData(){
                 try{
-                    const countData = await getOrderCount({restaurant_id: this.restaurant_id});
-                    if (countData.status == 1) {
-                        this.count = countData.count;
+                    const countData = await apiQueryTraceList({restaurant_id: this.restaurant_id});
+                    if (countData.code == 200) {
+                        // alert("查数量");
+                        this.count = countData.paging.totalcount;
                     }else{
                         throw new Error('获取数据失败');
                     }
@@ -105,17 +107,17 @@
                 this.getOrders()
             },
             async getOrders(){
-                const Orders = await getOrderList({offset: this.offset, limit: this.limit, restaurant_id: this.restaurant_id});
+                const Orders = await apiQueryTraceList({offset: this.offset, limit: this.limit, restaurant_id: this.restaurant_id});
                 this.tableData = [];
-                Orders.forEach((item, index) => {
+                Orders.data.forEach((item, index) => {
                     const tableData = {};
-                    tableData.id = item.id;
-                    tableData.total_amount = item.total_amount;
-                    tableData.status = item.status_bar.title;
-                    tableData.user_id = item.user_id;
- 					tableData.restaurant_id = item.restaurant_id;
- 					tableData.address_id = item.address_id;
-                    tableData.index = index;
+                    tableData.and_id = item.and_id;
+                    tableData.goods_name = item.goods_name;
+                    tableData.start_company = item.start_company;
+                    tableData.start_station = item.start_station;
+ 					tableData.transport_num = item.transport_num;
+ 					// tableData.address_id = item.address_id;
+                    // tableData.index = index;
                     this.tableData.push(tableData);
                 })
             },

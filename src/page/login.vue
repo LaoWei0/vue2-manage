@@ -3,7 +3,7 @@
         <transition name="form-fade" mode="in-out">
             <section class="form_contianer" v-show="showLogin">
                 <div class="manage_tip">
-                    <p>elm后台管理系统</p>
+                    <p>超限运输后台管理系统</p>
                 </div>
                 <el-form :model="loginForm" :rules="rules" ref="loginForm">
                     <el-form-item prop="username">
@@ -28,6 +28,7 @@
     import {login, getAdminInfo} from '@/api/getData'
     import { apiLogin } from '@/config/api';// 导入我们的api接口
     import {mapActions, mapState} from 'vuex'
+    import store from '../store/index'
 
     export default {
         data() {
@@ -69,12 +70,12 @@
                             password: this.loginForm.password
                         }).then(res => {
 
-                            debugger
                             // 获取数据成功后的其他操作
                             if (res.code == 200) {
                                 var data1 = res.data.token;
-                                alert(data1);
-                                this.$router.push('manage');
+                                this.$store.state.token = data1;
+                                localStorage.setItem("token",data1);
+                                this.$router.push('userList');
                                 this.$message({
                                     type: 'success',
                                     message: '登录成功'
